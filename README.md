@@ -305,6 +305,363 @@ let userPassword = ""; // 16자 제한
 let userAgree = false; // 숫자 1자 제한
 ```
 
-##### var, let, const 정확히 제약사항 파악하기
+#### 1-5 var, let, const 정확히 제약사항 파악하기
 
-### 1-5. 참조형 데이터 종류(reference Data Type)
+- 웹 브라우저에 저장할 내용, 즉 변수가 있다면 아래를 고민
+
+##### 1-5.1. `1순위는 const`
+
+- 변수를 만든다면 var, let, const 중 무엇을 선택할까?
+
+- 처음 코딩할 때엔 상수 const 사용 권장(변하지 않을 값을 작성할 때) -> 추후 코딩하다 값이 바뀌어야하는 경우에 let으로 변경
+
+- const의 특징
+
+  - 만들기 전에 사용할 수 없음(호이스팅 문제 해결)
+
+  ```js
+  console.log(userName); // Error
+  const userName = "홍길동";
+  ```
+
+  - 동일한 이름으로 변수를 또 생성할 수 없음(변수 중복 생성 방지)
+
+  ```js
+  const userAge = 10;
+  const userAge = 40; // Error
+  ```
+
+  - 값을 변경할 수 없음
+
+  ```js
+  const userCity = "대구";
+  userCity = "서울"; // Error
+  ```
+
+##### 1-5.2 `2순위는 let`
+
+- 만들기 전에 사용할 수 없음(호이스팅 문제 해결)
+
+```js
+console.log(userName); // Error
+let userName = "홍길동";
+```
+
+- 동일한 이름으로 변수를 또 생성할 수 없음 (중복 에러 생성. const와 동일)
+
+```js
+let userAge = 20;
+let userAge = 30; // Error
+```
+
+- 값을 나중에 변경할 수 있음(const와의 유일한 차이점)
+
+```js
+let userCity = "대구";
+userCity = "서울";
+```
+
+##### 1-5.3. `var`는 사용 금지
+
+- 호이스팅이 통과됨(추후 오류의 원인)
+
+- 동일한 이름으로 중복 생성 가능(추후 오류의 원인)
+
+- 값 변경 가능
+
+- 기존 코드에서 var를 사용한 케이스가 있으면 그냥 유지
+
+#### 1-5. 참조형 데이터 종류(reference Data Type)
+
+- ex) interpark 사이트의 banner 영역의 데이터를 js에서 관리하려고 한다
+
+  - banner는 링크주소, 이미지주소, 고유한 ID가 있음
+    -> 하나의 배너는 변수 3개씩 가지고있음
+
+- 총 5개의 배너가 있다면
+
+```js
+// 첫번째 배너
+const bannerUrl_1 = "https://";
+const bannerImg_1 = "https://";
+const bannerID = "1";
+// 두번째 배너
+const bannerUrl_2 = "https://";
+const bannerImg_2 = "https://";
+const bannerID = "2";
+// 세번째 배너
+const bannerUrl_3 = "https://";
+const bannerImg_3 = "https://";
+const bannerID = "3";
+// 네번째 배너
+const bannerUrl_4 = "https://";
+const bannerImg_4 = "https://";
+const bannerID = "4";
+// 다섯번째 배너
+const bannerUrl_5 = "https://";
+const bannerImg_5 = "https://";
+const bannerID = "5";
+```
+
+##### 1-6.1. 객체
+
+- 관련있는 기본형 데이터들을 `묶어서 하나`로 만듦
+
+```js
+// 1단계
+const 객체명 = {}
+// 2단계
+const 객체명 = {
+  Key Name 키명 : Key Value, Value 키값,
+  이름 : 값,
+  이름 : 값
+}
+const 객체명 = {
+  Property 속성명 : Value 값,
+  이름 : 값,
+  이름 : 값
+}
+```
+
+```js
+// 첫번째 배너
+const bannerUrl_1 = "https://";
+const bannerImg_1 = "https://";
+const bannerID = "1";
+
+const banner_1 = {
+  url: "https://",
+  img: "https://",
+  id: "1",
+};
+
+// 두번째 배너
+const bannerUrl_2 = "https://";
+const bannerImg_2 = "https://";
+const bannerID = "2";
+
+const banner_2 = {
+  url: "https://",
+  img: "https://",
+  id: "2",
+};
+```
+
+- 객체 변수 정보에 담겨진 속성 즉, 키명을 통한 값 사용(호출)
+
+```js
+객체명.키명;
+// banner_1.url;
+["객체명"].키명;
+// ["banner_1"].url;
+```
+
+##### 1-6.2 배열
+
+- 하나의 이름으로 여러개의 데이터를 묶어서 관리
+
+```js
+const userArray = [1, 2, 3, "안녕", false, null, undefined];
+const bannerId = ["1", "2", "3"];
+const banner = [
+  { url: "https://", img: "https://", id: "1" },
+  { url: "https://", img: "https://", id: "2" },
+  { url: "https://", img: "https://", id: "3" },
+];
+```
+
+- 배열의 요소에 값 사용(호출)
+
+```js
+배열명[인덱스번호];
+banner[0];
+banner[1];
+```
+
+#### 1-7. 변수 종합 예제
+
+- 인터파크 티켓 랭킹 작업
+
+```js
+// 섹션의 타이틀
+const sectionTitle = "티켓 랭킹";
+console.log(sectionTitle);
+
+// 섹션의 설명글
+const sectionDesc = "~~~";
+console.log(sectionDesc);
+
+// 섹션의 카테고리
+const sectionCategoryArr = ["뮤지컬", "콘서트", "스포츠"];
+sectionCategory[인텍스번호];
+sectionCategory[0]; // 뮤지컬
+sectionCategory[1]; // 콘서트
+sectionCategory[2]; // 스포츠
+// 티켓의 타이틀 정보
+const ticketTitleArr = [
+  "팬텀 10주년 기념 공연",
+  "뮤지컬 <메디슨 카운티의 다리>",
+  "뮤지컬 <라이카>",
+];
+console.log(ticketTitleArr[0]);
+console.log(ticketTitleArr[1]);
+console.log(ticketTitleArr[2]);
+
+// 티켓의 이미지 경로
+const ticketImgArr = ["https://a.jpg", "https://b.jpg", "https://c.jpg"];
+// 티켓의 링크 경로
+const ticketUrlArr = ["https://a.html", "https://b.html", "https://c.html"];
+// 티켓의 순위
+const ticketRankArr = [1, 2, 3];
+// 티켓의 공연 장소
+const ticketPlaceArr = ["대구", "서울", "제주"];
+// 티켓의 공연 일시
+const ticketDayArr = ["05/07", "05/09", "05/04"];
+
+// 위의 사항을 효율적으로 관리하기 위한 작업
+const ticket_1 = {
+  title: "패텀 10주년 기념 공연",
+  img: "https://a.jpg",
+  url: "https://a.html",
+  rank: 1,
+  place: "대구",
+  day: "05/07",
+};
+console.log(ticket_1);
+console.log(ticket_1.title);
+console.log(ticket_1.img);
+console.log(ticket_1.url);
+console.log(ticket_1.rank);
+console.log(ticket_1.place);
+console.log(ticket_1.day);
+
+const ticket_2 = {
+  title: "뮤지컬 <메디슨 카운티의 다리>",
+  img: "https://b.jpg",
+  url: "https://b.html",
+  rank: 2,
+  place: "서울",
+  day: "05/09",
+};
+console.log(ticket_2);
+console.log(ticket_1.["title"]);
+console.log(ticket_1.["img"]);
+console.log(ticket_1.["url"]);
+console.log(ticket_1.["rank"]);
+console.log(ticket_1.["place"]);
+console.log(ticket_1.["day"]);
+
+const ticket_3 = {
+  title: "뮤지컬 <라이카>",
+  img: "https://c.jpg",
+  url: "https://c.html",
+  rank: 3,
+  place: "제주",
+  day: "05/04",
+};
+const ticketInfoArr = [ticket_1, ticket_2, ticket_3];
+
+// 보통 아래의 형태로 데이터가 들어오는 것을 Javascript Object Notation 즉, JSON이라고 함
+const ticketInfoJsonArr = [
+  {
+    title: "패텀 10주년 기념 공연",
+    img: "https://a.jpg",
+    url: "https://a.html",
+    rank: 1,
+    place: "대구",
+    day: "05/07",
+  },
+  {
+    title: "뮤지컬 <메디슨 카운티의 다리>",
+    img: "https://b.jpg",
+    url: "https://b.html",
+    rank: 2,
+    place: "서울",
+    day: "05/09",
+  },
+  {
+    title: "뮤지컬 <라이카>",
+    img: "https://c.jpg",
+    url: "https://c.html",
+    rank: 3,
+    place: "제주",
+    day: "05/04",
+  },
+];
+
+ticketInfoJsonArr[0].title;
+ticketInfoJsonArr[1].title;
+ticketInfoJsonArr[2].title;
+```
+
+## 2. 연산자(Operator)
+
+- 연산을 해서 결과값을 만드는 `기호`
+
+  - 연산자에 의한 새로운 결과값이 나오는 것 `연산식`
+
+#### 2-1. 사칙연산(`+ - * /`)
+
+- `+ 연산자`
+
+```js
+const numA = 0;
+const numB = 1;
+const result = numA + numB; // 1
+```
+
+```js
+const strA = "안녕";
+const strB = "hello";
+const result = strA + strB; // 안녕hello
+```
+
+```js
+const strA = "홍길동";
+const strB = "hello";
+const result = "저기" + strA + "님 반가워요!"; // 저기 홍길동 님 반가워요!
+```
+
+```js
+const strA = "홍길동";
+const numAge = 20;
+const result = "저기" + strA + "님은 나이가" + numAge + "이군요!"; // 저기 홍길동 님은 나이가 20 이군요!\
+// 숫자 + 글자는 글자로 인정함
+
+// 아래처럼 템플릿 문법을 추천. 흔히 백틱이라고 함
+const resultTemplate = `저기 ${strA}님은 나이가 ${numAge}이군요!`;
+```
+
+- 참고 예제
+
+```html
+<div class="section">
+  <div class="box_wrap">
+    <a href="https:~">뮤지컬 팬텀</a>
+    <img src="https:~" alt="뮤지컬 팬텀 밴터이미지" />
+  </div>
+</div>
+```
+
+```js
+const link = "https:~";
+const img = "https:~";
+const title = "뮤지컬 팬텀";
+const alt = "뮤지컬 팬텀 배너 이미지";
+const tag = 
+`<div class="section">
+  <div class="box_wrap">
+    <a href="${link}">${title}</a>
+    <img src="${img}" alt="${alt}" />
+  </div>
+</div>`;
+```
+
+```js
+const numA = 5;
+const numB = 8;
+const resultA = `${numA} + ${numB} = ${numA + numB}`;
+const resultB = `${numA} - ${numB} = ${numA + numB}`;
+const resultC = `${numA} * ${numB} = ${numA + numB}`;
+const resultD = `${numA} / ${numB} = ${numA + numB}`;
+```
