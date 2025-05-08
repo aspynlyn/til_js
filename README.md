@@ -283,7 +283,7 @@ let userAgree : 참/거짓 숫자 1자 제한
 
 - string : 글자 (문자, 문자열로 구분)
 
-- boolean : true/false (나중에 falshy 한것 알아야함)
+- boolean : true/false (나중에 falsy 한것 알아야함)
 
 - undefined : 값이 없음(변수 초기값으로 자동 세팅)
 
@@ -648,8 +648,7 @@ const link = "https:~";
 const img = "https:~";
 const title = "뮤지컬 팬텀";
 const alt = "뮤지컬 팬텀 배너 이미지";
-const tag = 
-`<div class="section">
+const tag = `<div class="section">
   <div class="box_wrap">
     <a href="${link}">${title}</a>
     <img src="${img}" alt="${alt}" />
@@ -664,4 +663,323 @@ const resultA = `${numA} + ${numB} = ${numA + numB}`;
 const resultB = `${numA} - ${numB} = ${numA + numB}`;
 const resultC = `${numA} * ${numB} = ${numA + numB}`;
 const resultD = `${numA} / ${numB} = ${numA + numB}`;
+```
+
+```js
+const a = 1; // number
+const b = "1"; // string
+const result = a + b; // "11"
+// number + string = string
+// 1단계 : number -> string으로 암묵적 변환
+// 2단계 : string + string 계산
+```
+
+- `- 연산자`
+
+```js
+const numA = 100;
+const numB = 10;
+const result = numA - numB; // 90
+```
+
+```js
+const numA = "100"; // string
+const numB = 10; // number
+// string - number = number
+// 1단계 : string을 number로 암묵적 변환
+// 2단계 : number - number 계산
+const result = numA - numB; // 90
+```
+
+```js
+const numA = "ABC"; // string
+const numB = 10; // number
+// string - number = number
+// 1단계 : string을 number로 암묵적 변환 실패
+// 2단계 : string - number 계산
+const result = numA - numB; // NaN (Not a Number)
+```
+
+- `*, / 연산자`
+
+```js
+const numA = 4;
+const numB = 2;
+const resultMulti = numA * numB; // 8
+const resultDevide = numA / numB; // 2
+```
+
+#### 2-2. 나머지연산 (`%`)
+
+- 상황 : 총 게시글 52개, 한 페이지당 5개 목록. 몇페이지가 필요하고 마지막 페이지에서 보여주어야 하는 게시글의 수는?
+
+```js
+const total = 52;
+const count = 5;
+const totalPage = total / count; // 10.4 (소수점 나옴)
+const totalPageNumber = Math.ceil(totalPage); // 소수점 올림
+const lastCount = total % count; // 소수점이 아닌 나머지가 나옴
+```
+
+#### 2-3. 복합연산자 (연산 타이핑 수 줄여줌)
+
+```js
+const numA = 5;
+let result = numA + 3; // 8
+// 코딩에 의한 가독성 떨어짐 그치만 PG들은 많이 사용함
+
+result += 10; // 18
+// result = result + 10;
+result -= 5; // 13
+// result = result - 5;
+result *= 4; // 52
+// result = result * 4;
+result /= 2; // 26
+// result = result / 2;
+result %= 2; // 0
+```
+
+#### 2-4. 증감연산자 (++ --)
+
+- 개발자는 타이핑 수를 줄이려고 노력
+
+```js
+let num = 5;
+num = num + 1;
+num += 1;
+num++;
+++num;
+// 1 증가
+```
+
+```js
+let num = 5;
+num = num - 1;
+num -= 1;
+num--;
+--num;
+// 1 감소
+```
+
+```js
+let num = 20;
+let numA = num--; // 후에 배치된 후치연산이라서 numA는 20
+num; // 19
+
+let num = 20;
+let numA = --num; // 전에 배치된 전치연산이라서 numA는 19
+num; // 19
+
+// 증감연산자를 변수에 담을 때에 후치 전치가 크게 작용하지만 변수에 담는 경우는 거의 없음
+```
+
+#### 2-5. 논리연산자
+
+- 무조건 이해해야하는 부분
+
+  - `falsy`한 값의 종류 (js에서 false라고 판단하는 값)
+
+```js
+"";
+0;
+undegined;
+null;
+NaN;
+false;
+```
+
+- 최종 결과가 true인지 false인지 결과를 변수에 저장
+
+##### 2-5.1. OR 연산자
+
+- 2개 중 1개만 true이면 true, 나머지 false
+
+```js
+let result = true || true; // true
+result = false || false; // false
+result = false || true; // true
+result = "" || true; // true
+
+let userPass;
+result = userPass || "비밀번호를 넣으세요";
+```
+
+##### 2-5.2. AND 연산자
+
+- 둘다 true면 true, 아니면 false. 변수의 결과값엔 true나 false가 담겨짐
+
+```js
+let result = true $$ true; // true
+result = false && true; // false
+result = false && false; // false
+```
+
+##### 2-5.3. NOT 연산자
+
+```js
+let result = !true; // false
+result = !false; // true
+```
+
+##### 2-5.4. 실습 예제
+
+```js
+let nickName = "";
+let displayName = nickName || "Guest";
+console.log(displayName); // "Guest"
+```
+
+```js
+let title = null;
+let result = title || "제목 없음";
+console.log(result); // "제목 없음"
+```
+
+```js
+let totalMoney = 0;
+let result = totalMoney || "장바구니가 비었습니다";
+console.log(result); // "장바구니가 비었습니다"
+```
+
+```js
+let isLogin = true;
+let result = isLogin && "환영합니다";
+console.log(result); // // "환영합니다"
+```
+
+```js
+let isAdmin = false;
+let result = isAdmin && "관리자 메뉴 표시";
+console.log(result); // false
+```
+
+```js
+let config = {};
+config.theme = config.theme || "light";
+console.log(config); // {theme: :light"}
+```
+
+```js
+let options = {
+  lang: null,
+  fontSize: 0;
+};
+let lang = option.lang || "ko";
+let fontSize = option.fontSize || 20;
+```
+
+#### 2-6. 비교연산자
+
+- 정말 중요함
+
+```js
+let resultA = ("1" == 1); // true
+ // 데이터 값의 종류는 비교하지 않음
+let resultB = ("1" === 1); // false
+// 데이터 값과 종류 둘 다 비교함
+
+let resultC = 1 > 2;
+let resultD = 1 < 2;
+let resultE = 1 >= 2;
+let resultF = 1 <= 2;
+let resultG = 1 != 2;
+let resultH = 1 !== 2;
+```
+
+#### 2-7. 병합연산자
+
+- FE라면 반드시 알아야함
+
+- 일반적으로 기본값 세팅에서 활용
+
+- falsy가 아니라 `null, undefined`일 때만 값을 비교할 경우
+
+- 아래에서 진행한 코드는 값이 0으로 나오길 기대함
+
+```js
+let userPoint = 0;
+let dispalyPoint = userPoint || 500000;
+console.log(displayPoint); // 500000
+```
+
+- `??` 연산자는 null과 undifined만 false로 인식. 나머지는 ||와 같음
+
+```js
+let userPoint = 0;
+let dispalyPoint = userPoint ?? 500000;
+console.log(displayPoint); // 0
+```
+
+```js 
+let formInput = {
+  name: "".
+  email: null,
+  phone: undefined,
+};
+
+const name = formInput.name ?? "이름 없음";
+const email = formInput.eamil ?? "이메일 없음";
+const phone = formInput.phone ?? "전화번호 없음";
+```
+
+#### 2-8. 옵셔널체이닝(`?.`)
+
+- FE라면 알아야 함
+
+- 대상은 객체의 속성 여부에 따라 코드 진행
+
+  - `{속성:값}`
+
+```js
+const user = {
+  profile: null,
+};
+const age = user.profile.age; // null Error 발생 후 서비스 멈춤
+
+const user = {
+  profile: {name: "홍길동"},
+};
+const age = user.profile?.age;
+
+const user = {
+  profile: null,
+};
+const age = user.profile?.age ?? "정보가 없어서 나이 정보를 모릅니다";
+```
+
+#### 2-9. 3항 연산자
+
+- 연산자가 3개라서 3항 연산자라고 함
+
+- `결과 = 조건식 ? 참일 때 결과 : 거짓일 때 결과;`
+
+- 활용 빈도가 높음
+
+```js
+const userRole = "ADMIN"; // 사용자 등급
+// const url = 조건 ? 참 : 거짓;
+const url = userRole === "ADMIN" ? "admin.html" : "guesㅅ.html";
+```
+
+```js
+const age = 10;
+const result = age < 19 ? "동의서 필요" : "성인 인증";
+```
+
+```js
+const goodCount = 10;
+const result = goodCount > 0 ? "재고가 있어요" : "재고가 없어요";
+```
+
+```js
+const user = {
+  isLonin: true,
+  name: "아이유",
+};
+const result = user.isLogin ? `${user.name}님 반가워요` : "로그인 해주세요";
+```
+
+```js
+let num = 5;
+let result = num % 2 === 0 ? "짝수" : "홀수";
 ```
