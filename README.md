@@ -1338,10 +1338,506 @@ do {
 
 ## 5. 함수(Function)
 
-- 기능을 `{}` 묶어서 관리
+- 기능을 `{}` 묶고 `function 함수명()`을 주어서 관리
 
-- 여러번 재활용함
+- 여러번 재활용(`호출, call`)함
 
 - 문서 즉 설명서(JSDoc)가 잘 만들어져야 함
 
 - 예외처리를 잘 해야 함
+
+#### 5-1. 함수가 왜 필요하지?
+
+- 함수 사용을 고려해봐야할 상황
+
+  - 반복되는 1줄 이상의 코드가 있을 때
+
+  - 코드에 대한 가독성이 필요할 때
+
+  - 한번에 코드를 수정하여 다양한 곳에 동시에 반영되는 것을 원할 때
+
+  - 코드의 안정성을 생각해야 할 때
+
+  - 협업 중 기능을 만들어 재활용하여야 할 때
+
+```js
+// 아래는 사용자의 명단과 반가워요라는 메세지를 출력하는 기능
+let user_1 = "홍길동";
+let user_2 = "김길동";
+let user_3 = "박길동";
+let user_4 = "고길동";
+let user_5 = "정길동";
+console.log(user_1 + "님 반가워요");
+console.log(user_2 + "님 반가워요");
+console.log(user_3 + "님 반가워요");
+console.log(user_4 + "님 반가워요");
+console.log(user_5 + "님 반가워요");
+```
+
+- 기능을 구분해서 관리하고 싶다면(회원명단 및 인사 기능)
+
+```js
+function useMember (=) {
+let user_1 = "홍길동";
+let user_2 = "김길동";
+let user_3 = "박길동";
+let user_4 = "고길동";
+let user_5 = "정길동";
+console.log(user_1 + "님 반가워요");
+console.log(user_2 + "님 반가워요");
+console.log(user_3 + "님 반가워요");
+console.log(user_4 + "님 반가워요");
+console.log(user_5 + "님 반가워요");
+}
+// 함수 활용, 함수 호출, 함수 call
+useMember()
+```
+
+#### 5-2. 함수 만들기
+
+```js
+함수 이름은 동사로 지음
+function 함수명(){
+  기능1;
+  기능2;
+  기능3;
+}
+function 함수명(재료1, 재료2, 재료3){
+  재료1 처리 기능1;
+  재료2 처리 기능2;
+  재료3 처리 기능3;
+}
+```
+
+#### 5-3. 계산기 만들기
+
+- 단계 1.
+
+```js
+const result_1 = 5 + 4;
+const result_2 = 8 + 3;
+const result_3 = 7 + 2;
+const result_4 = 6 + 1;
+```
+
+- 단계 2.
+
+```js
+function result_1() {
+  5 + 4;
+}
+function result_2() {
+  8 + 3;
+}
+function result_3() {
+  7 + 2;
+}
+function result_4() {
+  6 + 1;
+}
+```
+
+- 단계 3. 재료만 다르고 하는 일은 + 기능
+
+```js
+function add(재료1, 재료2) {
+  재료1 + 재료2;
+}
+add(5, 4);
+add(8, 3);
+add(7, 2);
+add(6, 1);
+```
+
+- 단계 4. minus기능 만들기
+
+```js
+function minus(매개변수1, 매개변수2) {
+  매개변수1 - 매개변수2;
+}
+minus(5, 4);
+```
+
+- 단계 5. 기능에 예외처리(오류 처리) 적용
+
+  - 오류 : 원하지 않은 결과, Error 등
+
+```js
+function add(매개변수1, 매개변수2) {
+  // 방어코드(예외처리)
+  if (매개변수1 === undefined) {
+    return alert("매개변수1을 입력하세요");
+  }
+  if (매개변수2 === undefined) {
+    return alert("매개변수2를 입력하세요");
+  }
+  매개변수1 + 매개변수2;
+}
+
+function minus(매개변수1, 매개변수2) {
+  매개변수1 - 매개변수2;
+}
+
+add(5, "100"); // 원하지 않은 결과이므로 오류
+add(5, undefined); // 원하지 않은 결과이므로 오류
+add(5); // 원하지 않은 결과이므로 오류
+```
+
+#### 5-4. JSDoc으로 함수 사용에 대해 안내(설명서)하기
+
+- JSDoc 기본 이해
+
+  - 재료, 매개변수를 parameter라고 함
+
+```js
+/**
+ *  두개의 변수를 받아서 덧셈하는 기능
+ * @param {number} numA - 첫번째 숫자
+ * @param {number} numB - 두번째 숫자
+ * @returns {number} 두 숫자의 덧셈결과
+ */
+
+function add(numA, numB) {
+  if (numA === undefined) {
+    return alert("첫번째 매개변수를 입력해주세요");
+  }
+  if (numB === undefined) {
+    return alert("두번째 매개변수를 입력해주세요");
+  }
+  return numA + numB;
+}
+```
+
+#### 5-5. JSDoc을 이용한 계산기 함수 만들기
+
+````js
+/**
+ * 숫자 더하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} 덧셈 결과
+ */
+function add(a, b) {
+  return a + b;
+}
+
+/**
+ * 숫자 빼기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 뺄셈 결과
+ */
+function minus(a, b) {
+  return a - b;
+}
+
+/**
+ * 숫자 곱하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 곱셈 결과
+ */
+function multi(a, b) {
+  return a * b;
+}
+/**
+ * 숫자 나누기 기능
+ * @param {number} a - number
+ * @param {number} b - number
+ * @returns {number} - 나눗셈 결과
+ *
+ * ------ 호출예 -----
+ * ```javascript
+ * let result = divide(5, 4)
+ * ```
+ *
+ */
+function divide(a, b) {
+  if (b === 0) {
+    return alert("분모는 0 이 아니어야 합니다.");
+  }
+  // 데이터 알아내고, 타입 비교하기
+  if (typeof a !== "number") {
+    return alert("분자는 숫자여야 합니다.");
+  }
+  if (typeof b !== "number") {
+    return alert("분모는 숫자여야 합니다.");
+  }
+
+  return a / b;
+}
+
+// 덧셈 사용
+const resultAdd = add(5, 4);
+const resultMinus = minus(5, 4);
+const resultMulti = multi(5, 4);
+const resultDivide = divide(5, 0);
+````
+
+- 추가 함수
+
+````js
+/**
+ * 숫자 더하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} 덧셈 결과
+ */
+function add(a, b) {
+  return a + b;
+}
+
+/**
+ * 숫자 빼기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 뺄셈 결과
+ */
+function minus(a, b) {
+  return a - b;
+}
+
+/**
+ * 숫자 곱하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 곱셈 결과
+ */
+function multi(a, b) {
+  return a * b;
+}
+/**
+ * 숫자 나누기 기능
+ * @param {number} a - number
+ * @param {number} b - number
+ * @returns {number} - 나눗셈 결과
+ *
+ * ------ 호출예 -----
+ * ```javascript
+ * let result = divide(5, 4)
+ * ```
+ *
+ */
+function divide(a, b) {
+  if (b === 0) {
+    return alert("분모는 0 이 아니어야 합니다.");
+  }
+  // 데이터 알아내고, 타입 비교하기
+  if (typeof a !== "number") {
+    return alert("분자는 숫자여야 합니다.");
+  }
+  if (typeof b !== "number") {
+    return alert("분모는 숫자여야 합니다.");
+  }
+
+  return a / b;
+}
+
+/**
+ * 계산기 기능
+ * 계산기 기능은 +, -, *, / 기능이 있습니다.
+ * @param {string} symbol  +, -, *, / 기호 중 1개 입력
+ * @param {number} a 숫자 입력
+ * @param {number} b 숫자 입력
+ * @returns {number} 결과는 숫자
+ *
+ * 사용 예) =================
+ *
+ * ```javascript
+ * const result = calcurator("+", 5, 4);
+ * ```
+ */
+function calcurator(symbol, a, b) {
+  if (typeof symbol !== "string") {
+    return alert("기호를 입력하세요.");
+  }
+  let result = 0;
+
+  switch (symbol) {
+    case "+":
+      result = add(a, b);
+      break;
+    case "-":
+      result = minus(a, b);
+      break;
+    case "/":
+      result = divide(a, b);
+      break;
+    case "*":
+      result = multi(a, b);
+      break;
+    default:
+      return alert("올바른 기호를 입력해 주세요.");
+  }
+
+  return result;
+}
+````
+
+#### 5-6. 다양한 함수 예제
+
+```js
+/**
+ * 메시지를 콘솔에 출력하기
+ * @param {string} message - 출력할 메시지
+ */
+function showMessage(message) {
+  console.log(message);
+}
+showMessage("안녕");
+showMessage("홍길동 반가워");
+```
+
+```js
+/**
+ * 배열을 받아서 요소를 출력하는 함수
+ * @param {number[]} arr - 숫자모음 배열
+ */
+function showArr(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+```
+
+```js
+/**
+ * 객체의 속성 값을 출력하는 기능
+ * @param {{id:number, nicName:string, age:number}}
+ */
+function showUser(user) {
+  console.log(user.id);
+  console.log(user.nickName);
+  console.log(user.age);
+}
+```
+
+#### 5-7. 함수의 기본 값 설정하기
+
+````js
+/**
+ * 나이를 10살 더하여서 출력하는 함수
+ * @param {number} age - 현재 나이 입력
+ * ```javascript
+ * const result = showAge(10); // 20
+ * ```
+ */
+function showAge(age) {
+  return age + 10;
+}
+````
+
+#### 5-8. 매개변수의 총 개수 자동으로 알아내기
+
+```js
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * @param {number} numbers - 숫자 값
+ */
+function showTotal() {
+  console.log(arguments);
+  let total = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    total = total + arguments[i];
+  }
+  return total;
+}
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+- Rest 파라메터는 전달된 매개변수에 `정확한 값만 배열`로 만듦
+
+```js
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * Rest 파라메터 이용하기
+ * @param {...number} numbers - 숫자 값
+ */
+function showTotal(...rest) {
+  console.log(rest);
+  let total = 0;
+  for (let i = 0; i < rest.length; i++) {
+    total = total + rest[i];
+  }
+  return total;
+}
+
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+- Rest 파라메터는 기본 매개변수 적용 후, `나머지를 배열로 추출`한다.
+
+```js
+/**
+ * 입력된 매개 변수만큼 총합 계산하기
+ * Rest 파라메터 이용하기
+ * @param {number} numbers - 숫자값
+ */
+function showTotal(a, b, ...rest) {
+  console.log(a);
+  console.log(b);
+  console.log(rest);
+  let total = 0;
+  for (let i = 0; i < rest.length; i++) {
+    total = total + rest[1];
+  }
+  return total;
+}
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+## 6. 함수 선언법 (꼭 이해)
+
+- 1. 일반적 함수 만드는 법 (함수 선언식)
+
+```js
+function 함수명(매개변수) {
+  return 결과값;
+}
+함수명(매개변수);
+```
+
+- 2. `변수의 값`으로 함수 만드는 법 (함수 표현식)
+
+```js
+const 변수명 = function (매개변수) {
+  return 결과값;
+};
+변수명(매개변수);
+```
+
+- 3. 왜 `const 변수명 = function` 형태가 필요할까?
+
+```js
+function add() {
+  return 1 + 2;
+}
+// add();
+
+const addFun = function () {
+  return 1 + 2;
+};
+// addFun();
+
+const minusFun = function () {
+  return 1 - 2;
+};
+
+function test(_func) {
+  _func();
+}
+
+test(add); // 값이 아니라서 안됨
+
+test(addFun);
+test(minusFun);
+```
+
+- 코드 위치 살펴보기(함수 완성하고 사용하기)
+
+```js
+add(); // 호이스팅이 되므로 괜찮음
+addFN(); // 호이스팅이 에러 발생함(주의)
+function add() {}
+const addFN = function () {};
+```
