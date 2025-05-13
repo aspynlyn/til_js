@@ -64,6 +64,7 @@ function calcurator(symbol, a) {
   if (typeof symbol !== "string") {
     return alert("기호를 입력하세요");
   }
+  let result = 0;
   switch (symbol) {
     case "+":
       add(a, b);
@@ -80,6 +81,7 @@ function calcurator(symbol, a) {
     default:
       return alert("올바른 기호를 입력하세요");
   }
+  return result;
 }
 
 // 외부로 공개할 함수 생성
@@ -89,6 +91,21 @@ const resultAdd = add(5, 4);
 const resultMinus = minus(5, 4);
 const resultMulti = multi(5, 4);
 const resultDevide = divide(5, 4);
+
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * @param {number} numbers - 숫자 값
+ */
+function showTotal() {
+  console.log(arguments);
+  let total = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    total = total + arguments[i];
+  }
+  return total;
+}
+
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
 
 // for in 구문 예제 (대상은 객체 속성 반복)
 
@@ -169,3 +186,18 @@ do {
   count = count + 1;
   console.log(count);
 } while (count < 5);
+
+/**
+ * 너비를 계산해주는 함수
+ * @param {number} _width
+ * @param {number} _height
+ * @returns {number}
+ * -- 함수 사용 예--
+ * ```js
+ * const result = calcRect(5,4);
+ * ```
+ */
+function calcRect(_width, _height) {
+  return _width * _height;
+}
+const result = calcRect(5, 4);
