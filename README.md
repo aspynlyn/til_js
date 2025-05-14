@@ -20,7 +20,7 @@
 3. Serverm DB, 데스크탑 Application 제어 : Node.js로 가능
 ```
 
-## 2. js의 종류 (2가지)
+## 2. js의 실행할 수 있는 환경 (2가지)
 
 #### 2-1. 웹 브라우저용 js(Web API)
 
@@ -809,7 +809,7 @@ result = userPass || "비밀번호를 넣으세요";
 - 둘다 true면 true, 아니면 false. 변수의 결과값엔 true나 false가 담겨짐
 
 ```js
-let result = true $$ true; // true
+let result = true && true; // true
 result = false && true; // false
 result = false && false; // false
 ```
@@ -1840,4 +1840,480 @@ add(); // 호이스팅이 되므로 괜찮음
 addFN(); // 호이스팅이 에러 발생함(주의)
 function add() {}
 const addFN = function () {};
+```
+
+## 7. 함수 추가 정리
+
+#### 7-1. 함수를 만들 시점 (언제 함수를 만들까에 대한 안내)
+
+##### 7-1.1 코드가 너무 긴 경우(하나의 결과를 만들기 위해서 작성시)
+
+- 코드 가독성이 너무 떨어져서 추후 분석이 곤란할 때
+
+- 하나의 결과를 만들기 위한 과정을 작성 중 너무 많은 코드가 작성될 때
+
+- 여러 줄이 작성되어서 한개의 결과를 만들 때
+
+##### 7-1.2 동일한 기능이 여러 번 사용될 때
+
+- 2번 이상 동일한 기능을 쓸 때
+
+- 2번 이상 동일한 기능인데 재료(매개변수)만 다를 때
+
+##### 7-1.3 코드를 누군가에게 주어야 할 대
+
+- 코드를 공유할 때
+
+#### 7-2. 함수 만드는 법
+
+- 1. `{}` 로 코드 블럭을 이용해 묶어줌
+
+- 2. 이름을 `동사`로 지어줌(기본 : Camel Case / 생성자함수 : Pascal Case)
+
+- 3. 이름 뒤에 `(매개변수(parameter), 매개변수(parameter))`를 작성함 (매개변수는 일반 변수명과의 구별을 위해 \_변수명으로 작성 권장)
+
+- 4. function 키워드를 작성해 줌
+
+- 5. `JSDoc`으로 사용 설명서 작성(작업의 효율을 위해 권장)
+
+#### 7-3. 함수 사용법(`호출, call` 등으로 칭함)
+
+```js
+함수이름();
+// 함수명을 호출했다. call했다
+```
+
+#### 7-4. 함수 샘플
+
+- 넓이를 계산하는 기능. 2번이상 사용, 누군가에게 공유
+
+````js
+/**
+ * 너비를 계산해주는 함수
+ * @param {number} _width
+ * @param {number} _height
+ * @returns {number}
+ * -- 함수 사용 예--
+ * ```js
+ * const result = calcRect(5,4);
+ * ```
+ */
+function calcRect(_width, _height) {
+  return _width * _height;
+}
+const result = calcRect(5, 4);
+// 함수 호출
+console.log(result);
+````
+
+#### 7-5. 함수의 추가지식
+
+- 매개변수 갯수에는 제한이 없음
+
+- arguments 말고 `rest 파라메터`를 쓰자
+
+```js
+function 함수명(매개변수1, 매개변수2, ...rest) {
+  const params = rest; // 배열로 접근 가능
+}
+함수명(1, 2, 3, 4, 5);
+```
+
+- 함수를 `표현식(Expression)`으로 만드는 법
+
+- 변수에 함수를 담는 이유는 `함수에 매개변수`에 전달하기 위함
+
+```js
+// 기본 함수 정의
+function 함수명() {}
+
+// 함수 표현식 정의
+const 함수명 = function () {};
+
+const add = function () {};
+function calcFunc(_Fn) {
+  add();
+}
+calcFunc(add);
+```
+
+- 콜백함수는 `특정한 이벤트`가 발생 시 덩달아서 실행
+
+## 8. 화살표 함수(Arrow Function) !매우 중요!
+
+- FE에서 함수 작성시 많이 볼 수 있는 형태
+
+- 활용 비율이 높음 반드시 이해
+
+#### 8-1. 화살표 함수가 필요한 이유
+
+- 함수가 간략해짐
+
+- 함수가 최적화됨(메모리 절약, 성능 최적화)
+
+- this의 범위가 고정됨
+
+- new를 사용 못함(추후 진행)
+
+#### 8-2. 화살표 함수 작성법 (반드시 이해)
+
+- 매개변수가 없는 경우
+
+```js
+// 기본 함수
+function say(_word) {
+  console.log(_word);
+}
+// 표현식 함수
+const say = function (_word) {
+  console.log(_word);
+};
+// 화살표함수
+const sayArrow = (_word) => {
+  console.log(_word);
+};
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+const sayArrow2 = (_word) => console.log(_word);
+```
+
+- 매개변수가 단 `1개`있을 때
+
+```js
+// 기본 함수
+function say(_word) {
+  console.log(_word);
+}
+// 표현식 함수
+const say = function (_word) {
+  console.log(_word);
+};
+// 화살표함수
+const sayArrow = (_word) => {
+  console.log(_word);
+};
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+const sayArrow2 = (_word) => console.log(_word);
+
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+// 매개변수 () 가 생략 가능
+const sayArrow3 = (_word) => console.log(_word);
+```
+
+- 매개변수가 `2개` 있을 때
+
+```js
+// 기본 함수
+function say(_word, _name) {
+  console.log(_word + _name);
+}
+// 표현식 함수
+const say = function (_word, _name) {
+  console.log(_word + _name);
+};
+// 화살표함수
+const sayArrow = (_word, _name) => {
+  console.log(_word + _name);
+};
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+const sayArrow2 = (_word, _name) => console.log(_word + _name);
+
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+// 매개변수 2개 이상은 () 가 필수
+const sayArrow3 = (_word, _name) => console.log(_word + _name);
+```
+
+## 9. 스코프(Scope)의 이해
+
+- 변수를 활용 가능한 범위
+
+- 제일 중요한 것은 `{}`임
+
+#### 9-1. Scope의 종류 2가지
+
+- 전역 스코프 : Global Scope
+
+  - 프로그램 어디서든 마음대로 접근해서 활용
+
+```js
+//전역 변수
+const appName = "JavaScript World";
+{
+  console.log(appName);
+}
+function say() {
+  console.log(appName);
+}
+say();
+```
+
+```js
+//전역자리
+function say() {
+  console.log("안녕");
+}
+//지역자리
+{
+  say();
+}
+say();
+```
+
+- 지역 스코프 : Local Scope
+
+  - `{}` 블럭 안쪽을 지역범위라고 칭함
+
+```js
+{
+  // 지역 변수
+  const appName = "JavaScript World";
+  console.log(appName);
+}
+
+function say() {
+  console.log(appName);
+}
+say();
+```
+
+- 아래는 정상적으로 실행됨
+
+- `function 키워드`는 전역 범위에 등록됨
+
+- 개발자의 선택권한 없음
+
+```js
+// 전역 자리
+
+// 지역 자리
+{
+  function say(_name) {
+    console.log(_name + " 안녕");
+  }
+  say("홍길동");
+}
+
+say("박길동");
+```
+
+- function 은 전역에 등록되므로 예측 곤란
+
+- 아래 코드는 협업 실패 : `function ` 은 전역에 등록해서 쓰기
+
+- `function ` 은 지역에 코드해서 쓸 것
+
+```js
+// 전역 자리
+
+// 개발자: 홍길동 지역 자리
+{
+  function say(_name) {
+    console.log(_name + " Hello");
+  }
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  function say(_name) {
+    console.log(_name + " 반가워");
+  }
+  say("고길동");
+} // 고길동 function이 홍길동function을 뒤덮으면서 고길동 function이 실행됨
+
+say("테스터");
+```
+
+- 아래를 추천
+
+```js
+// 전역 자리
+function say(_word) {
+  console.log("기본 실행 함수 : " + _word);
+}
+// 개발자: 홍길동 지역 자리
+{
+  const say = function (_name) {
+    console.log(_name + " Hello");
+  };
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  const say = function (_name) {
+    console.log(_name + " 반가워");
+  };
+  say("고길동");
+}
+
+say("테스터");
+```
+
+- 화살표로 고치면
+
+```js
+// 전역 자리
+function say(_word) {
+  console.log("기본 실행 함수 : " + _word);
+}
+// 개발자: 홍길동 지역 자리
+{
+  const say = (_name) => console.log(_name + " Hello");
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  const say = (_name) => console.log(_name + " 반가워");
+  say("고길동");
+}
+
+say("테스터");
+```
+
+## 10. this
+
+- this가 스코프와 연결되면서 혼란스러움
+
+#### 10-1. 전역 스코프의 this는 `Window`
+
+```js
+console.log(this); // Window{....}
+```
+
+#### 10-2. function의 this는 `Window`
+
+```js
+function say() {
+  console.log(this); // Window{....}
+  function hi() {
+    console.log(this); // Window{....}
+  }
+  hi();
+}
+say();
+```
+
+```js
+const say = function () {
+  console.log(this);
+};
+say();
+```
+
+#### 10-3. function또는 표현식 함수는 this 사용시 위험한 코드
+
+- 동일한 스코프를 가르쳐서 값이 변할 위험 존재
+
+- 물어보거나 Error를 띄우지도 않고 var 변수를 만들고 window변수에 등록
+
+```js
+var brand = "nike";
+
+function now() {
+  this.brand = "adidas";
+}
+
+console.log("함수 실행전 : ", brand);
+
+now();
+console.log("함수 실행후 : ", brand);
+```
+
+#### 10-4. 객체에 속성으로 만든 함수에서의 this
+
+- 객체에서 this는 객체 전체를 가르킴
+
+```js
+const Person = {
+  name: "아이유",
+  age: 20,
+  sayHi: function () {
+    console.log(this);
+  },
+};
+console.log(Person.name);
+Person.age;
+Person.sayHi();
+// function에 사용하니 this가 상황에 따라 변함
+```
+
+#### 10-5. 객체 생성자 함수로 사용 시의 this
+
+- 생성된 객체가 this가 됨
+
+```js
+// 대문자 즉 Pascal
+function Coffee() {
+  console.log(this);
+}
+
+Coffee();
+new Coffee();
+```
+
+#### 10-6. this 요약정리
+
+- function에 작성한 this는 `어디서 함수를 사용했는가`에 따라 다름
+
+```js
+function say(){
+  this는? // window
+}
+say();  // golbal영역에서 say 함수 사용
+```
+
+```js
+const Person = {
+  say : function(){
+    this는? // 객체 Person
+  }
+}
+Person.say(); // Person영역에서 say 함수 사용
+```
+
+```js
+const Person = {
+  name: "아이유",
+  say: function () {
+    console.log(this.name); // "아이유"
+  },
+};
+Person.say(); // Person영역에서 say 함수 사용
+```
+
+#### 10-7. 화살표 함수의 this는?
+
+- 화살표 함수는 `상위 스코프`를 가르킴
+
+```js
+// window영역
+const say = () => {
+  console.log(this); // window
+};
+say(); // 화살표 함수에서의 this는 현재의 상위 범위를 씀
+```
+
+```js
+const Person = {
+  name: "아이유",
+  say: function () {
+    console.log(this); // Person 객체
+    console.log(this.name); // 아이유
+  },
+    setTimeout(function () {
+      console.log(this); // window 가 호출
+      console.log(this.name); // window.name 찾는다
+    }, 3000);
+  },
+  sayArrow: function () {
+    console.log(this); // 객체가 호출
+    console.log(this.name); // 객체.name 찾는다.
+    setTimeout(() => {
+      console.log(this); // 화살표는 나보다 위에 영역
+      console.log(this.name); // 위에 영역.name
+    }, 3000);
+  },
+};
+Person.sayArrow();
 ```
