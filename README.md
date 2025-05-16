@@ -3022,7 +3022,7 @@ console.log("total : ", total);
 
 ##### 15-6.6. join();
 
-- 문자열로 배열을 연결한 결과를 만든다.
+- `문자열로 배열을 연결한 결과`를 만든다.
 
 ```js
 const numArr1 = [1, 2, 3, 4];
@@ -3055,4 +3055,115 @@ const numArr1 = [1, 2, 3, 4];
 const result = numArr1.includes(3);
 console.log(`typeof ${typeof result} , ${result}`);
 // typeof boolean , true
+```
+
+## 16. 객체(`{}`)와 배열(`[]`)의 필수 이해 사항
+
+#### 16.1. 반복문
+
+- 배열에서 사용하는 경우의 반복문 문법
+
+```js
+// 가장 전통적인 방식
+const arr = [1, 2, 3, 4];
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+
+// 배열의 요소 반복문 버전
+arr.forEach(function (item) {
+  console.log(item);
+});
+
+// 배열의 for of문
+for (const item of arr) {
+  console.log(item);
+}
+
+// 배열의 map : 새로운 배열을 만듦
+const now = arr.map(function (item) {
+  return item;
+});
+```
+
+- 객체에서 사용하는 경우의 반복문 문법
+
+```js
+const person = {
+  age: 10,
+  nickName: "hong",
+  isMember: false,
+};
+
+// 객체의 속성명 알아내기
+for (let key in person) {
+  console.log(key); //age, nickName, isMember
+}
+
+// 객체의 속성에 보관하는 값 알아내기
+for (let key in person) {
+  console.log(person[key]); // 10, hong, false
+}
+```
+
+#### 16-2. 값을 추출해서 보관하ㅑ기
+
+- 배열
+
+```js
+const arr = ["사과", "딸기", "참외"];
+
+// 아래처럼 요소 값을 알아내는 것은 비추천
+arr[0];
+arr[1];
+arr[2];
+
+// 반복문으로 알아내기
+for (let i = 0; i < arr.length; i++) {
+  arr[i];
+}
+```
+
+- `배열 Spread 문법` !!!!!!!!정말 중요!!!!!!!!
+
+  - 배열의 요소를 알아내고,
+
+  - 배열의 요소를 복사하고,
+
+  - 새로운 배열에 담아주고
+
+```js
+const arr = ["사과", "딸기", "참외"];
+
+// 아래처럼 하지는 않음
+const apple = arr[0];
+const straq = arr[1];
+const melon = arr[2];
+
+// 배열 Spread 문법
+const [apple, straw, melon] = [...arr];
+
+// 두 배열을 Spread 문법으로 합치기
+const numArr = [1, 2, 3];
+const strArr = ["a", "b", "c"];
+
+// [1, "a", "b", "c", 2, 3]
+// 아래처럼 권장하지는 않음
+const sampleArr = [1, strArr[0], strArr[2], str[2], 2, 3];
+
+// Spread 활용
+const resultArr = [1, ...strArr, 2, 3];
+
+// Rest 파라메터 문법
+function showArr(...rest) {}
+```
+
+- 객체
+
+```js
+const person = {
+  age: 10,
+  nickName: "hong",
+  isMember: false,
+};
 ```
