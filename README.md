@@ -3166,4 +3166,227 @@ const person = {
   nickName: "hong",
   isMember: false,
 };
+
+// 이렇게는 하지 말기
+const newPerson = {
+  age : person.age,
+  nickName: person.nickName,
+  isMember: person.isMember,
+};
+
+// 객체 Spread 문법
+const nowPerson = {...person};
+
+// 두개의 객체를 합치기
+const a = {age:10, name: "hong"};
+const b = {city : "대구", year:2025};
+const result = {...a, ...b}
+// 결과 {age: 10, name: "hong", city: "대구", year: 2025}
+
+// 원본 객체 복사하고 새로운 속성 추가하기
+const ori = {a:1 b:"안녕"}
+const now = {...ori, gogo:"happy"}
+// now {a:1, b:"안녕", gogo:"happy"}
+
+// 함수에 매개변수로 객체를 복사해서 전달하기
+function show({name, age}){
+  console.log(name);
+  console.log(age);
+  }
+  const user = {name:"아이유", age:20};
+  show({...user})
+```
+
+## 17. 비동기(Asyncronous) 통신
+
+- `비동기`는 시간이 오래 걸리는 작업
+
+- 예 : 데이터 서버에서 자료를 요청(Request) 및 응답(Response)
+
+- 예 : 데이터 서버에서 파일 전송 시
+
+- 비동기 작업 중에 결과를 기다리지 않고 다른 작업을 병렬로 실행하도록
+
+#### 17.1. 비동기 작업 문법 종류
+
+- XHR (Xml Http Request)
+- Callback
+- Promise
+- async/await
+
+#### 17-2. 데모용 API 사이트
+
+- https://jsonplaceholder.typicode.com/
+
+- https://www.data.go.kr/index.jsp
+
+#### 17-3. XHR
+
+- 서버와 통신하는 작업을 위해서 기본적으로 제공이 됨
+
+- `Request(요청)` : url로 자료 요청
+
+- `Respone(응답)` : url로부터 자료를 돌려받음
+
+- status 200류의 값 : 정상적으로 자료를 응답함
+
+- status 400류의 값 : url이 존재하지 않음
+
+- status 500류의 값 : 데이터 서버가 오류거나 전원이 꺼짐
+
+- https://developer.mozilla.org/ko/docs/Web/HTTP/Reference/Status
+
+#### 17.4. Callback 활용하기
+
+- 자료 응답 후 처리하기
+
+```js
+// 데이터 서버에 자료를 호출함
+
+function getData(api = "posts", fn) {
+  // 1. xhr 객체 한개 만듦
+  const xhr = new XMLHttpRequest();
+  // 2. 주소를 연결함
+  xhr.open("GET", `https://jsonplaceholder.typicode.com/${api}`);
+  // 3. 웹브라우저로 요청
+  xhr.send();
+
+  // 4. 요청 이후 응답이 오기를 기다림
+  xhr.onload = function () {
+    //console.log("요청이 되어졌을 때 백엔드 회신정보 : ", xhr);
+    if (xhr.status === 200) {
+      // console.log("정상적인 Response 됨 : ", xhr.response);
+      // 콜백함수 : 자료가 오면 자료를 활용하고 싶음
+      fn(xhr.response);
+    } else if (xhr.status === 404) {
+      console.log("주소가 잘못되었네요.");
+    } else if (xhr.status === 505) {
+      console.log("서버에 오류입니다. 잠시 후 시도해 주세요.");
+    }
+  };
+}
+// 콜백함수 만들기 : 자료가 들어오면 처리함
+const postsParser = function (res) {
+  console.log(res);
+};
+const commentsParser = function (res) {};
+const albumsParser = function (res) {};
+const photosParser = function (res) {};
+const todosParser = function (res) {};
+const usersParser = function (res) {};
+// 함수 사용
+getData("posts", postsParser);
+getData("comments", commentsParser);
+getData("albums", albumsParser);
+getData("photos", photosParser);
+getData("todos", todosParser);
+getData("users", usersParser);
+```
+
+#### 17-5. Promise 활용하기
+
+- 서버 연동이 끝날 때 원하는 콜백함수 실행
+
+- 2개의 매개변수를 전달 받음
+
+- resolve 콜백함수 : 성공시 실행함수
+
+- reject 콜백함수 : 실패시 실행함수
+
+```js
+// 데이터 서버에 자료를 호출함.
+
+function getData(api = "posts") {
+  return new Promise(function (resolve, reject) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `https://jsonplaceholder.typicode.com/${api}`);
+    xhr.send();
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // 성공
+        resolve(xhr.response);
+      } else if (xhr.status === 404) {
+        // 실패
+        reject("데이터 없어요.");
+      } else if (xhr.status === 505) {
+        console.log("서버가 불안정합니다. 잠시 후 재접속해주세요.");
+      }
+    };
+  });
+}
+// 함수 사용
+getData("posts")
+  .then(function (data) {
+    return getData("comments");
+  })
+  .then(function (data) {
+    return getData("albums");
+  })
+  .then(function (data) {
+    return getData("photos");
+  })
+  .then(function (data) {
+    return getData("todos");
+  })
+  .then(function (data) {
+    return getData("users");
+  })
+  .catch(function (err) {});
+```
+
+#### 17-6. async / await(강력추천)
+
+- Promise를 편하게 쓰기 위해서 최신 문법 제공
+
+- `function 키워드 앞쪽에 async`를 작성
+
+- `BE 연동 쪽에 await`를 작성
+
+- 1단계
+
+```js
+async function getAllData() {
+  try {
+  } catch (error) {}
+}
+
+getAllData();
+```
+
+- 2단계
+
+```js
+async function getAllData() {
+  try {
+    const apiUrl = "https://jsonplaceholder.typicode.com";
+    // BE 데이터 연동 시도
+    let res = await fetch(`${apiUrl}/posts`);
+    let data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/comments");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/albums");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/photos");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/todos");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/users");
+    data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.log("ERROR 입니다. : " + error);
+  }
+}
+
+getAllData();
 ```
